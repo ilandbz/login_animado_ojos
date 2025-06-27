@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Animado</title>
+</head>
+<style>
+    body {
+      background: linear-gradient(to right, #4b6cb7, #182848);
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .login-container {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      width: 350px;
+      position: relative;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    .face {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      background: #dddcdc;
+      border-radius: 50%;
+      margin: 0 auto 20px auto;
+    }
+
+    .eye {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: rgb(255, 255, 255);
+      border-radius: 50%;
+      top: 30px;
+      left: 20px;
+      overflow: hidden;
+    }
+
+    .eye.right {
+      left: 60px;
+    }
+
+    .pupil {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: black;
+      border-radius: 50%;
+      top: 5px;
+      left: 5px;
+      transition: all 0.1s;
+    }
+
+    .eye.closed::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      background: rgb(187, 165, 165);
+      top: 10px;
+      left: 0;
+    }
+
+    input {
+      display: block;
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #4b6cb7;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+    }
+  </style>
+<body>
+    <h2>MARCO CASTAÑEDA -- PROYECTO LOGIN ANIMADO</h2>
+    <div class="login-container">
+  <div class="face">
+    <div class="eye left"><div class="pupil" id="pupil-left"></div></div>
+    <div class="eye right"><div class="pupil" id="pupil-right"></div></div>
+  </div>
+
+  <input type="email" placeholder="Correo electrónico" />
+  <input type="password" placeholder="Contraseña" id="password" />
+  <button>Iniciar sesión</button>
+</div>
+<script>
+    const eyes = document.querySelectorAll('.eye');
+    const pupils = document.querySelectorAll('.pupil');
+    const passwordInput = document.getElementById('password');
+
+    document.addEventListener('mousemove', (e) => {
+    pupils.forEach((pupil) => {
+      const rect = pupil.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const angle = Math.atan2(e.clientY - centerY, e.clientX - centerX);
+      const moveX = Math.cos(angle) * 5;
+      const moveY = Math.sin(angle) * 5;
+      pupil.style.transform = `translate(${moveX}px, ${moveY}px)`;
+    });
+  });
+
+  passwordInput.addEventListener('focus', () => {
+    eyes.forEach(eye => eye.classList.add('closed'));
+    pupils.forEach(pupil => pupil.style.display = 'none');
+  });
+
+  passwordInput.addEventListener('blur', () => {
+    eyes.forEach(eye => eye.classList.remove('closed'));
+    pupils.forEach(pupil => pupil.style.display = 'block');
+  });
+</script>
+</body>
+</html>
